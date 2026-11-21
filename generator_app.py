@@ -91,7 +91,7 @@ def _(mo):
         # Генератор интервалов между болидами
 
         Модель: падения болидов образуют пуассоновский поток, интервалы между
-        соседними событиями распределены показательно (экспоненциально).
+        соседними событиями распределены экспоненциально.
         Двигайте ползунки: графики и числа пересчитываются сразу.
         """
     )
@@ -122,13 +122,13 @@ def _(generate_intervals, mean_days, n_events, np):
 
 
 @app.cell
-def _(C_ACCENT, C_DATA, C_THEORY, intervals, mean_days, np, plt):
+def _(C_ACCENT, C_MUTED, C_THEORY, intervals, mean_days, np, plt):
     mu_th = float(mean_days.value)
     x_max = float(np.quantile(intervals, 0.995)) * 1.05
     fig, ax = plt.subplots()
     ax.hist(
         intervals, bins=40, range=(0, x_max), density=True,
-        color=C_DATA, alpha=0.6, edgecolor="white", linewidth=0.5,
+        color=C_ACCENT, alpha=0.6, edgecolor="white", linewidth=0.5,
         label="сгенерированные интервалы",
     )
     x_grid = np.linspace(0.0, x_max, 300)
@@ -137,7 +137,7 @@ def _(C_ACCENT, C_DATA, C_THEORY, intervals, mean_days, np, plt):
         color=C_THEORY, linewidth=2.5, label="теоретическая плотность",
     )
     ax.axvline(
-        mu_th, color=C_ACCENT, linestyle="--", linewidth=2,
+        mu_th, color=C_MUTED, linestyle="--", linewidth=2,
         label=f"теоретическое среднее = {mu_th:.0f} дн.",
     )
     ax.set_title("Гистограмма интервалов и теоретическая плотность")
@@ -157,8 +157,8 @@ def _(intervals, mean_days, mo, np):
         f"**Сгенерированные интервалы:** среднее **{sample_mean:.2f} дн.**, "
         f"стандартное отклонение **{sample_std:.2f} дн.**"
         "\n\n"
-        f"**Теория (показательное распределение):** среднее **{mu_stat:.2f} дн.**, "
-        f"стандартное отклонение **{mu_stat:.2f} дн.** — у него σ = μ"
+        f"**Теория (экспоненциальное распределение):** среднее **{mu_stat:.2f} дн.**, "
+        f"стандартное отклонение **{mu_stat:.2f} дн.**, у него они равны"
         "\n\n"
         "Чем больше n (второй ползунок), тем ближе выборочные числа к теоретическим: "
         "это и есть совпадение метрик генератора и распределения."
@@ -167,11 +167,11 @@ def _(intervals, mean_days, mo, np):
 
 
 @app.cell
-def _(C_DATA, moments, plt):
+def _(C_ACCENT, moments, plt):
     fig_time, ax_time = plt.subplots(figsize=(9, 2.6))
     ax_time.eventplot(
         moments, lineoffsets=0, linelengths=0.8,
-        colors=C_DATA, linewidths=1.2,
+        colors=C_ACCENT, linewidths=1.2,
     )
     ax_time.set_title("Лента времени: моменты падения болидов")
     ax_time.set_xlabel("время, дней")
@@ -183,7 +183,7 @@ def _(C_DATA, moments, plt):
 @app.cell
 def _(moments, mo):
     mo.md(
-        f"Лента тянется **{float(moments[-1]):.0f} дней** — столько «длилось» наблюдение, "
+        f"Лента тянется **{float(moments[-1]):.0f} дней**, столько длилось наблюдение, "
         f"пока не упали все {len(moments)} сгенерированных болидов."
     )
     return
