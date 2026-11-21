@@ -135,5 +135,27 @@ def _(C_ACCENT, C_DATA, C_THEORY, intervals, mean_days, np, plt):
     return
 
 
+@app.cell
+def _(C_DATA, moments, plt):
+    fig_time, ax_time = plt.subplots(figsize=(9, 2.6))
+    ax_time.eventplot(
+        moments, lineoffsets=0, linelengths=0.8,
+        colors=C_DATA, linewidths=1.2,
+    )
+    ax_time.set_title("Лента времени: моменты падения болидов")
+    ax_time.set_xlabel("время, дней")
+    ax_time.set_yticks([])
+    fig_time
+    return
+
+
+@app.cell
+def _(moments, mo):
+    mo.md(
+        f"Лента тянется **{float(moments[-1]):.0f} дней** — столько «длилось» наблюдение, "
+        f"пока не упали все {len(moments)} сгенерированных болидов."
+    )
+    return
+
 if __name__ == "__main__":
     app.run()
