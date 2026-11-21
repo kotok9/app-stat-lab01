@@ -9,6 +9,8 @@
 - `lab01_fireballs.ipynb` основная часть, три случайные величины по болидам и генератор
 - `lab01_asteroids.ipynb` доп. задание, две величины по сближениям астероидов
 - `lab01_style.ipynb` общий стиль графиков
+- `generator_app.py` интерактивная страница с генератором (marimo)
+- `lab01_fireballs.html`, `lab01_asteroids.html`, `generator_app.html` те же отчеты и страница генератора в виде веб-страниц, открываются в браузере
 - `requirements.txt` библиотеки
 
 ## Данные
@@ -29,3 +31,12 @@ pip install -r requirements.txt
 ```
 
 и открыть ноутбук в Jupyter или VS Code.
+
+## Страница с генератором
+
+```
+pip install marimo numpy matplotlib
+marimo run generator_app.py
+```
+
+Откроется страница в браузере. Ползунками меняется среднее время между болидами и сколько болидов сгенерировать, графики сразу пересчитываются.
