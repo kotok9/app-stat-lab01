@@ -136,6 +136,24 @@ def _(C_ACCENT, C_DATA, C_THEORY, intervals, mean_days, np, plt):
 
 
 @app.cell
+def _(intervals, mean_days, mo, np):
+    mu_stat = float(mean_days.value)
+    sample_mean = float(np.mean(intervals))
+    sample_std = float(np.std(intervals, ddof=1))
+    mo.md(
+        f"**Сгенерированные интервалы:** среднее **{sample_mean:.2f} дн.**, "
+        f"стандартное отклонение **{sample_std:.2f} дн.**"
+        "\n\n"
+        f"**Теория (показательное распределение):** среднее **{mu_stat:.2f} дн.**, "
+        f"стандартное отклонение **{mu_stat:.2f} дн.** — у него σ = μ"
+        "\n\n"
+        "Чем больше n (второй ползунок), тем ближе выборочные числа к теоретическим: "
+        "это и есть совпадение метрик генератора и распределения."
+    )
+    return
+
+
+@app.cell
 def _(C_DATA, moments, plt):
     fig_time, ax_time = plt.subplots(figsize=(9, 2.6))
     ax_time.eventplot(
