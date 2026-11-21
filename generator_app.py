@@ -63,10 +63,23 @@ def _():
 
 @app.cell
 def _(np):
-    # Заглушка генератора: подменим на настоящий датчик из ноутбука по болидам
-    def generate_intervals(n, mean_days, seed=0):
-        rng = np.random.default_rng(seed)
-        return rng.exponential(mean_days, size=n)
+    # Генератор из ноутбука lab01_fireballs.ipynb (раздел sprint 2)
+    # шаг 1: свой датчик равномерных чисел от 0 до 1 (линейный конгруэнтный метод)
+    def lcg(n, seed=1):
+        a = 6364136223846793005
+        c = 1442695040888963407
+        m = 2 ** 64
+        x = seed
+        numbers = []
+        for i in range(n):
+            x = (a * x + c) % m
+            numbers.append(x / m)
+        return np.array(numbers)
+
+    # шаг 2: превращаем равномерные числа в интервалы между болидами
+    def generate_intervals(n, mean_days, seed=1):
+        u = lcg(n, seed)
+        return -mean_days * np.log(1 - u)
 
     return (generate_intervals,)
 
@@ -181,9 +194,8 @@ def _(mo):
     mo.md(
         """
         ---
-        Сейчас работает заглушка `generate_intervals` (numpy, показательное
-        распределение). Она подменяется настоящим датчиком из ноутбука
-        по болидам; имя функции и параметры остаются теми же.
+        Числа выдает наш генератор из ноутбука `lab01_fireballs.ipynb`:
+        свой датчик равномерных чисел и метод обратной функции.
         """
     )
     return
